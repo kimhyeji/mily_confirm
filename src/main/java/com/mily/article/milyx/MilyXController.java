@@ -8,17 +8,13 @@ import com.mily.base.rsData.RsData;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -49,10 +45,9 @@ public class MilyXController {
         return "redirect:/mily/milyx";
     }
 
-    @GetMapping("/secondaryCategories")
-    public List<SecondCategory> getSecondaryCategories(@RequestParam int firstCategoryId) {
-        List<SecondCategory> sc = categoryService.findByFirstCategory_Id(1);
-        return categoryService.findByFirstCategory_Id(firstCategoryId);
+    @GetMapping("/secondCategories")
+    public List<SecondCategory> getSecondCategories(@RequestParam int firstCategoryId) {
+        return categoryService.findByFirstCategoryId(firstCategoryId);
     }
 
 //    @GetMapping("/getSecondaryCategory")

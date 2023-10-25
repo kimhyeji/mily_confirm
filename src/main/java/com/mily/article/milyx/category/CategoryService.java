@@ -54,7 +54,7 @@ public class CategoryService {
                 .orElseThrow(() -> new NoSuchElementException("다음에 대한 검색 결과가 없습니다. : " + id));
     }
 
-    public List<SecondCategory> findByFirstCategory_Id(int firstCategoryId) {
-        return scr.findByFirstCategory_Id(firstCategoryId);
+    public List<SecondCategory> findByFirstCategoryId(int firstCategoryId) {
+        return scr.findByFirstCategoryId(firstCategoryId);
     }
 }

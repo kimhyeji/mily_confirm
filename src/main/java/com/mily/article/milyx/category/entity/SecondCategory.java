@@ -3,6 +3,7 @@ package com.mily.article.milyx.category.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import net.minidev.json.annotate.JsonIgnore;
 
 import static lombok.AccessLevel.PROTECTED;
 

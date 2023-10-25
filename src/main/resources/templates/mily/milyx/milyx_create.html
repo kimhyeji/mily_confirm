@@ -2,7 +2,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Mily > Mily X 질문</title>
-    <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
 </head>
 <body>
 <div class="flex-1 flex items-center justify-center" layout:fragment="content">
@@ -22,7 +21,7 @@
                     </select>
                 </label>
                 <label>2차 카테고리
-                    <select class="select select-bordered" id="secondaryCategory" name="secondaryCategory">
+                    <select class="select select-bordered" id="secondCategory" name="secondCategory">
 
                     </select>
                 </label>
@@ -49,76 +48,45 @@
                 </button>
             </div>
         </form>
-        <script>
-            $(document).ready(function() {
+        <script th:inline="javascript">
             $('#firstCategory').change(function() {
-                const firstCategory = $(this).val();
-                const secondaryCategory = $("#secondaryCategory");
+                const firstCategoryId = $(this).val();
 
-                secondaryCategory.empty();
-
-                let options = [];
-                if (firstCategory === "1") {
-                    options = ["A1", "A2", "A3"];
-                } else if (firstCategory === "B") {
-                    options = ["B1", "B2", "B3"];
-                }
-
-                $.each(options, function(index, option) {
-                    secondaryCategory.append($("<option>", {
-                        value: option,
-                        text: option
-                    }));
+                $.ajax({
+                    url: '/milyx/secondCategories',
+                    method: 'GET',
+                    data: { firstCategoryId: firstCategoryId },
+                    success: function(data) {
+                        let $secondCategory = $('#secondCategory');
+                        $secondCategory.empty();
+                        data.forEach(sc => {
+                            $secondCategory.append('<option value="' + sc.id + '">' + sc.name + '</option>');
+                        });
+                    }
                 });
             });
-        });
 
 <!--            $(document).ready(function () {-->
-<!--        $('#firstCategory').change(function () {-->
-<!--            const firstCategoryId = $(this).val();-->
-
-<!--            $.ajax({-->
-<!--                url: '/secondaryCategories',-->
-<!--                type: 'GET',-->
-<!--                data: { firstCategoryId: firstCategoryId },-->
-<!--                success: function (data) {-->
-<!--                    $('#secondaryCategory').empty();-->
-
-<!--                    data.forEach(function (category) {-->
-<!--                        const option = $('<option>', {-->
-<!--                            value: category.id,-->
-<!--                            text: category.name-->
-<!--                        });-->
-<!--                        $('#secondaryCategory').append(option);-->
-<!--                    });-->
-<!--                },-->
-<!--                error: function (error) {-->
-<!--                    console.error("2차 카테고리 데이터를 가져오는데 실패하였습니다.", error);-->
-<!--                }-->
-<!--            });-->
-<!--        });-->
-<!--    });-->
-
-<!--            // Initial population-->
-<!--            $(document).ready(function() {-->
-<!--                $('#firstCategory').change(function() {-->
-<!--                    const firstCategory = $(this).val();-->
-<!--                    const secondaryCategory = $("#secondaryCategory");-->
+<!--                $('#firstCategory').change(function () {-->
+<!--                    const firstCategoryId = $(this).val();-->
 
 <!--                    $.ajax({-->
-<!--                        url: '/getSecondaryCategory',-->
-<!--                        method: 'GET',-->
-<!--                        data: {-->
-<!--                            primary: firstCategory-->
-<!--                        },-->
-<!--                        success: function(data) {-->
-<!--                            secondaryCategory.empty();-->
-<!--                            $.each(data, function(index, option) {-->
-<!--                                secondaryCategory.append($("<option>", {-->
-<!--                                    value: option.title,-->
-<!--                                    text: option.title-->
-<!--                                }));-->
+<!--                        url: '/milyx/secondaryCategories',-->
+<!--                        type: 'POST',-->
+<!--                        data: { firstCategoryId: firstCategoryId },-->
+<!--                        success: function (data) {-->
+<!--                            $('#secondaryCategory').empty();-->
+
+<!--                            data.forEach(function (category) {-->
+<!--                                const option = $('<option>', {-->
+<!--                                    value: category.id,-->
+<!--                                    text: category.name-->
+<!--                                });-->
+<!--                                $('#secondaryCategory').append(option);-->
 <!--                            });-->
+<!--                        },-->
+<!--                        error: function (error) {-->
+<!--                            console.error("2차 카테고리 데이터를 가져오는데 실패하였습니다.", error);-->
 <!--                        }-->
 <!--                    });-->
 <!--                });-->
@@ -165,11 +133,28 @@
 <!--                submitCreateFormDone = true;-->
 <!--            }-->
 
-<!--            $(document).ready(function(){-->
-<!--                $('#firstCategory').change(function() {-->
-<!--                    console.log($(this).val());-->
+            <!--            1차 db확인용-->
+<!--            $(document).ready(function() {-->
+<!--            $('#firstCategory').change(function() {-->
+<!--                const firstCategory = $(this).val();-->
+<!--                const secondaryCategory = $("#secondaryCategory");-->
+
+<!--                secondaryCategory.empty();-->
+
+<!--                let options = [];-->
+<!--                if (firstCategory === "1") {-->
+<!--                    options = ["A1", "A2", "A3"];-->
+<!--                }-->
+
+<!--                $.each(options, function(index, option) {-->
+<!--                    secondaryCategory.append($("<option>", {-->
+<!--                        value: option,-->
+<!--                        text: option-->
+<!--                    }));-->
 <!--                });-->
 <!--            });-->
+<!--        });-->
+
         </script>
     </div>
 </div>
