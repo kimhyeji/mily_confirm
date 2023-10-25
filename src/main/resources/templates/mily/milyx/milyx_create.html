@@ -1,0 +1,177 @@
+<html layout:decorate="@{mily/common/layout}" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Mily > Mily X 질문</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
+</head>
+<body>
+<div class="flex-1 flex items-center justify-center" layout:fragment="content">
+    <div class="container w-full px-4">
+        <h1 class="mb-4">
+            <i class="fa-solid fa-pen"></i>
+            <span>글쓰기</span>
+        </h1>
+
+        <form action="/milyx/create" class="flex flex-col gap-6" method="POST"
+              th:action="@{/milyx/create}">
+            <div class="form-control">
+                <label>1차 카테고리
+                    <select class="select select-bordered" id="firstCategory" name="firstCategory">
+                        <option value="">전체</option>
+                        <option th:each="category : ${firstCategories}" th:text="${category.title}" th:value="${category.id}"></option>
+                    </select>
+                </label>
+                <label>2차 카테고리
+                    <select class="select select-bordered" id="secondaryCategory" name="secondaryCategory">
+
+                    </select>
+                </label>
+                <label class="label">
+                    <span class="label-text">제목</span>
+                </label>
+                <input class="input input-bordered" maxlength="100"
+                       name="subject" placeholder="제목" type="text">
+            </div>
+
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">내용</span>
+                </label>
+                <textarea class="textarea textarea-bordered h-[calc(100vh-450px)] min-h-[100px]" maxlength="20000"
+                          name="body" placeholder="내용"
+                ></textarea>
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <button class="btn btn-block btn-primary gap-1">
+                    <i class="fa-solid fa-pen"></i>
+                    <span>글쓰기</span>
+                </button>
+            </div>
+        </form>
+        <script>
+            $(document).ready(function() {
+            $('#firstCategory').change(function() {
+                const firstCategory = $(this).val();
+                const secondaryCategory = $("#secondaryCategory");
+
+                secondaryCategory.empty();
+
+                let options = [];
+                if (firstCategory === "1") {
+                    options = ["A1", "A2", "A3"];
+                } else if (firstCategory === "B") {
+                    options = ["B1", "B2", "B3"];
+                }
+
+                $.each(options, function(index, option) {
+                    secondaryCategory.append($("<option>", {
+                        value: option,
+                        text: option
+                    }));
+                });
+            });
+        });
+
+<!--            $(document).ready(function () {-->
+<!--        $('#firstCategory').change(function () {-->
+<!--            const firstCategoryId = $(this).val();-->
+
+<!--            $.ajax({-->
+<!--                url: '/secondaryCategories',-->
+<!--                type: 'GET',-->
+<!--                data: { firstCategoryId: firstCategoryId },-->
+<!--                success: function (data) {-->
+<!--                    $('#secondaryCategory').empty();-->
+
+<!--                    data.forEach(function (category) {-->
+<!--                        const option = $('<option>', {-->
+<!--                            value: category.id,-->
+<!--                            text: category.name-->
+<!--                        });-->
+<!--                        $('#secondaryCategory').append(option);-->
+<!--                    });-->
+<!--                },-->
+<!--                error: function (error) {-->
+<!--                    console.error("2차 카테고리 데이터를 가져오는데 실패하였습니다.", error);-->
+<!--                }-->
+<!--            });-->
+<!--        });-->
+<!--    });-->
+
+<!--            // Initial population-->
+<!--            $(document).ready(function() {-->
+<!--                $('#firstCategory').change(function() {-->
+<!--                    const firstCategory = $(this).val();-->
+<!--                    const secondaryCategory = $("#secondaryCategory");-->
+
+<!--                    $.ajax({-->
+<!--                        url: '/getSecondaryCategory',-->
+<!--                        method: 'GET',-->
+<!--                        data: {-->
+<!--                            primary: firstCategory-->
+<!--                        },-->
+<!--                        success: function(data) {-->
+<!--                            secondaryCategory.empty();-->
+<!--                            $.each(data, function(index, option) {-->
+<!--                                secondaryCategory.append($("<option>", {-->
+<!--                                    value: option.title,-->
+<!--                                    text: option.title-->
+<!--                                }));-->
+<!--                            });-->
+<!--                        }-->
+<!--                    });-->
+<!--                });-->
+<!--            });-->
+
+
+<!--            let submitCreateFormDone = false;-->
+
+<!--            function submitCreateForm(form) {-->
+<!--                if (submitCreateFormDone) return;-->
+
+<!--                form.subject.value = form.subject.value.trim();-->
+
+<!--                if (form.subject.value.length == 0) {-->
+<!--                    form.subject.focus();-->
+<!--                    toastWarning('제목을 입력해주세요.');-->
+<!--                    return;-->
+<!--                }-->
+
+<!--                if (form.subject.value.length < 2) {-->
+<!--                    form.subject.focus();-->
+<!--                    toastWarning('제목을 2글자 이상 입력해주세요.');-->
+<!--                    return;-->
+<!--                }-->
+
+<!--                form.body.value = form.body.value.trim();-->
+
+<!--                if (form.body.value.length == 0) {-->
+<!--                    form.body.focus();-->
+<!--                    toastWarning('내용을 입력해주세요.');-->
+<!--                    return;-->
+<!--                }-->
+
+<!--                if (form.body.value.length < 2) {-->
+<!--                    form.body.focus();-->
+<!--                    toastWarning('내용을 2자 이상 입력해주세요.');-->
+<!--                    return;-->
+<!--                }-->
+
+<!--                form.firstCategory.value = form.mainCategory.value.trim();-->
+<!--                form.secondCategory.value = form.subCategory.value.trim();-->
+
+<!--                form.submit();-->
+<!--                submitCreateFormDone = true;-->
+<!--            }-->
+
+<!--            $(document).ready(function(){-->
+<!--                $('#firstCategory').change(function() {-->
+<!--                    console.log($(this).val());-->
+<!--                });-->
+<!--            });-->
+        </script>
+    </div>
+</div>
+</body>
+</html>
