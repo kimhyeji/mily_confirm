@@ -40,9 +40,11 @@ public class MilyXController {
     }
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
-    public String create (@RequestParam int firstCategory, @RequestParam String secondaryCategory, @RequestParam String subject, @RequestParam String body) {
+    public String create (@RequestParam int firstCategory, @RequestParam String secondCategory, @RequestParam String subject, @RequestParam String body) {
         FirstCategory fc = categoryService.findById(firstCategory);
-        RsData<MilyX> rsData = milyXService.create(rq.getMilyUser(), fc, null, subject, body);
+        SecondCategory sc = categoryService.findScById(Integer.parseInt(secondCategory));
+
+        RsData<MilyX> rsData = milyXService.create(rq.getMilyUser(), fc, sc, subject, body);
         return "redirect:/mily/milyx";
     }
 
