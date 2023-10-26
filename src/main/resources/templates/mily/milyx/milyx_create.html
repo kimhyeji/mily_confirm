@@ -17,12 +17,13 @@
                 <label>1차 카테고리
                     <select class="select select-bordered" id="firstCategory" name="firstCategory">
                         <option value="">전체</option>
-                        <option th:each="category : ${firstCategories}" th:text="${category.title}" th:value="${category.id}"></option>
+                        <option th:each="category : ${firstCategories}" th:text="${category.title}"
+                                th:value="${category.id}"></option>
                     </select>
                 </label>
                 <label>2차 카테고리
                     <select class="select select-bordered" id="secondCategory" name="secondCategory">
-
+                        <option value="">전체</option>
                     </select>
                 </label>
                 <label class="label">
@@ -49,112 +50,33 @@
             </div>
         </form>
         <script th:inline="javascript">
-            $('#firstCategory').change(function() {
-                const firstCategoryId = $(this).val();
+            $("#firstCategory").change(function () {
+                var firstCategoryId = $(this).val();
+
+                console.log("firstCategoryId : " + firstCategoryId);
 
                 $.ajax({
-                    url: '/milyx/secondCategories',
-                    method: 'GET',
+                    url: "/milyx/secondCategories",
+                    method: "GET",
                     data: { firstCategoryId: firstCategoryId },
-                    success: function(data) {
-                        let $secondCategory = $('#secondCategory');
-                        $secondCategory.empty();
-                        data.forEach(sc => {
-                            $secondCategory.append('<option value="' + sc.id + '">' + sc.name + '</option>');
+                    dataType: "json",
+                    success: function (data) {
+                    console.log(data);
+                        $("#secondCategory").empty();
+
+                        $.each(data, function (index, category) {
+                            const option = $("<option>", {
+                                value: category.id,
+                                text: category.title
+                            });
+                            $("#secondCategory").append(option);
                         });
+                    },
+                    error: function (error) {
+                        console.error("error : " + error);
                     }
                 });
             });
-
-<!--            $(document).ready(function () {-->
-<!--                $('#firstCategory').change(function () {-->
-<!--                    const firstCategoryId = $(this).val();-->
-
-<!--                    $.ajax({-->
-<!--                        url: '/milyx/secondaryCategories',-->
-<!--                        type: 'POST',-->
-<!--                        data: { firstCategoryId: firstCategoryId },-->
-<!--                        success: function (data) {-->
-<!--                            $('#secondaryCategory').empty();-->
-
-<!--                            data.forEach(function (category) {-->
-<!--                                const option = $('<option>', {-->
-<!--                                    value: category.id,-->
-<!--                                    text: category.name-->
-<!--                                });-->
-<!--                                $('#secondaryCategory').append(option);-->
-<!--                            });-->
-<!--                        },-->
-<!--                        error: function (error) {-->
-<!--                            console.error("2차 카테고리 데이터를 가져오는데 실패하였습니다.", error);-->
-<!--                        }-->
-<!--                    });-->
-<!--                });-->
-<!--            });-->
-
-
-<!--            let submitCreateFormDone = false;-->
-
-<!--            function submitCreateForm(form) {-->
-<!--                if (submitCreateFormDone) return;-->
-
-<!--                form.subject.value = form.subject.value.trim();-->
-
-<!--                if (form.subject.value.length == 0) {-->
-<!--                    form.subject.focus();-->
-<!--                    toastWarning('제목을 입력해주세요.');-->
-<!--                    return;-->
-<!--                }-->
-
-<!--                if (form.subject.value.length < 2) {-->
-<!--                    form.subject.focus();-->
-<!--                    toastWarning('제목을 2글자 이상 입력해주세요.');-->
-<!--                    return;-->
-<!--                }-->
-
-<!--                form.body.value = form.body.value.trim();-->
-
-<!--                if (form.body.value.length == 0) {-->
-<!--                    form.body.focus();-->
-<!--                    toastWarning('내용을 입력해주세요.');-->
-<!--                    return;-->
-<!--                }-->
-
-<!--                if (form.body.value.length < 2) {-->
-<!--                    form.body.focus();-->
-<!--                    toastWarning('내용을 2자 이상 입력해주세요.');-->
-<!--                    return;-->
-<!--                }-->
-
-<!--                form.firstCategory.value = form.mainCategory.value.trim();-->
-<!--                form.secondCategory.value = form.subCategory.value.trim();-->
-
-<!--                form.submit();-->
-<!--                submitCreateFormDone = true;-->
-<!--            }-->
-
-            <!--            1차 db확인용-->
-<!--            $(document).ready(function() {-->
-<!--            $('#firstCategory').change(function() {-->
-<!--                const firstCategory = $(this).val();-->
-<!--                const secondaryCategory = $("#secondaryCategory");-->
-
-<!--                secondaryCategory.empty();-->
-
-<!--                let options = [];-->
-<!--                if (firstCategory === "1") {-->
-<!--                    options = ["A1", "A2", "A3"];-->
-<!--                }-->
-
-<!--                $.each(options, function(index, option) {-->
-<!--                    secondaryCategory.append($("<option>", {-->
-<!--                        value: option,-->
-<!--                        text: option-->
-<!--                    }));-->
-<!--                });-->
-<!--            });-->
-<!--        });-->
-
         </script>
     </div>
 </div>

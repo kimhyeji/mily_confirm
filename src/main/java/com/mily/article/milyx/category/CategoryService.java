@@ -18,8 +18,9 @@ public class CategoryService {
     private final FirstCategoryRepository fcr;
     private final SecondCategoryRepository scr;
 
-    public List<FirstCategory> getFirstCategories () {
-        return fcr.findAll();
+    public List<FirstCategory> getFirstCategories () { return fcr.findAll(); }
+    public List<SecondCategory> getSecondCategories () {
+        return scr.findAll();
     }
 
     public FirstCategory addFC (String title) {

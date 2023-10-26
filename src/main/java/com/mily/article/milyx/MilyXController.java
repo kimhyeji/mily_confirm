@@ -8,6 +8,7 @@ import com.mily.base.rsData.RsData;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -46,25 +47,11 @@ public class MilyXController {
     }
 
     @GetMapping("/secondCategories")
-    public List<SecondCategory> getSecondCategories(@RequestParam int firstCategoryId) {
-        return categoryService.findByFirstCategoryId(firstCategoryId);
+    public ResponseEntity<List<SecondCategory>> validateId(@RequestParam(value = "firstCategoryId") int firstCategoryId) {
+        List<SecondCategory> sc = categoryService.findByFirstCategoryId(firstCategoryId);
+
+        return ResponseEntity.ok().body(sc);
     }
-
-//    @GetMapping("/getSecondaryCategory")
-//    public List<SecondCategory> getSecondaryOptions(@RequestParam("primary") String firstCategory) {
-//        List<SecondCategory> scList = categoryService.findByFirstCategoryId(firstCategory);
-//
-//        return categoryService.findByFirstCategoryId(firstCategory);
-//    }
-
-//    @PreAuthorize("isAuthenticated()")
-//    @PostMapping("/create")
-//    public String create (CreateForm createForm) {
-//        RsData<MilyX> rsData = milyXService.create(rq.getMilyUser(), createForm.getFirstCategory(), createForm.getSecondCategory(), createForm.getSubject(), createForm.getBody());
-//
-//        System.out.println("createForm : " + createForm.getFirstCategory() + createForm.getSecondCategory() + createForm.getSubject() + createForm.getBody());
-//        return "redirect:/mily/milyx";
-//    }
 
     @AllArgsConstructor
     @Getter
