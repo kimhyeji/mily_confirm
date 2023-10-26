@@ -16,14 +16,14 @@
             <div class="form-control">
                 <label>1차 카테고리
                     <select class="select select-bordered" id="firstCategory" name="firstCategory">
-                        <option value="">전체</option>
+                        <option value="0" disabled selected>전체</option>
                         <option th:each="category : ${firstCategories}" th:text="${category.title}"
                                 th:value="${category.id}"></option>
                     </select>
                 </label>
                 <label>2차 카테고리
                     <select class="select select-bordered" id="secondCategory" name="secondCategory">
-                        <option value="">전체</option>
+                        <option value="0" disabled selected>1차 카테고리를 선택해주세요.</option>
                     </select>
                 </label>
                 <label class="label">
